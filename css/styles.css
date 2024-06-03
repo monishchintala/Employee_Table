@@ -1,0 +1,7 @@
+body {
+  margin: 0;
+}
+
+.customDialogPadding {
+  padding: 2px 20px; /* Adjust the padding as needed */
+}
