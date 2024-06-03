@@ -1,7 +1,4 @@
-<mvc:View controllerName="Emp_Table.controller.Table"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core"
-	xmlns="sap.m">
+<!-- <mvc:View controllerName="Emp_Table.controller.Table" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m">
 	<Table id="idEmpTable" sticky="ColumnHeaders" growing="true" fixedLayout="false" items="{path: '/EmployeeData'}">
 		<headerToolbar>
 			<OverflowToolbar>
@@ -64,5 +61,87 @@
 			</ColumnListItem>
 		</items>
 	</Table>
-</mvc:View>
+</mvc:View> -->
 
+<mvc:View controllerName="Emp_Table.controller.Table"
+	xmlns="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+	xmlns:m="sap.m" height="100%">
+	<m:Page showHeader="false" enableScrolling="false" class="sapUiContentPadding">
+		<m:content>
+			<Table rows="{/EmployeeData}" selectionMode="Single">
+				<extension>
+					<m:OverflowToolbar style="Clear">
+						<m:Title id="title" text="Products"/>
+					</m:OverflowToolbar>
+				</extension>
+				<columns>
+					<Column width="11rem">
+						<m:Label text="EmployeeID" />
+						<template>
+							<m:Text text="{Name}" wrapping="false" />
+						</template>
+					</Column>
+					<Column width="11rem">
+						<m:Label text="Name" />
+						<template>
+							<m:Input value="{ProductId}"/>
+						</template>
+					</Column>
+					<Column width="6rem" hAlign="End">
+						<m:Label text="Designation" />
+						<template>
+							<m:Label text="{Quantity}" />
+						</template>
+					</Column>
+					<Column width="9rem">
+						<m:Label text="PhoneNumber" />
+						<template>
+							<m:ObjectStatus text="{Status}" state="{
+								path: 'Available',
+								formatter: '.formatAvailableToObjectState'
+							}"/>
+						</template>
+					</Column>
+					<Column width="9rem">
+						<m:Label text="Email" />
+						<template>
+							<u:Currency value="{Price}" currency="{CurrencyCode}"/>
+						</template>
+					</Column>
+					<Column width="12rem">
+						<m:Label text="Salary" />
+						<template>
+							<m:ComboBox value="{SupplierName}" items="{/Suppliers}">
+								<c:Item text="{Name}"/>
+							</m:ComboBox>
+						</template>
+					</Column>
+					<Column width="9rem">
+						<m:Label text="Gender" />
+						<template>
+							<m:Link text="Show Image" href="{ProductPicUrl}" target="_blank"/>
+						</template>
+					</Column>
+					<Column width="9rem">
+						<m:Label text="JoiningDate" />
+						<template>
+							<m:Button text="Show Details" press="handleDetailsPress"/>
+						</template>
+					</Column>
+					<Column width="7rem">
+						<m:Label text="Address" />
+						<template>
+							<m:CheckBox selected="{
+								path: 'Heavy',
+								type: 'sap.ui.model.type.String'
+							}"/>
+						</template>
+					</Column>
+				</columns>
+			</Table>
+		</m:content>
+	</m:Page>
+</mvc:View>
