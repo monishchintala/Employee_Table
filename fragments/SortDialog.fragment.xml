@@ -6,6 +6,7 @@
             <ViewSettingsItem text="Designation" key="designation" />
             <ViewSettingsItem text="Email" key="email" />
             <ViewSettingsItem text="Gender" key="gender" />
+            <ViewSettingsItem text="Salary" key="salary" />
         </sortItems>
     </ViewSettingsDialog>
 </core:FragmentDefinition>

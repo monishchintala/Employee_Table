@@ -67,6 +67,7 @@ sap.ui.define([
                     };
                 },
             };
+
         },
         resetGroupDialog: function (oEvent) {
             this.groupReset = true;
@@ -179,6 +180,7 @@ sap.ui.define([
         onEditPress: function (oEvent) {
             var oController = this;
             var oModel = oController.getView().getModel();
+            var viewModel = oController.getView().getModel("viewModel")
             // to get the row Data starts
             var oSelectedItem = oEvent.getSource().getParent();
             var oContext = oSelectedItem.getBindingContext();
@@ -194,11 +196,26 @@ sap.ui.define([
                     press: function () {
                         var aInputs = oController.oDialog.getContent();
                         fields.forEach((field, i) => {
-                            if (field.key === "gender") oEmployeeData[field.key] = aInputs[i].getItems()[1].getSelectedButton().getText()
-                            else if (field.key === "designation") oEmployeeData[field.key] = aInputs[i].getItems()[1].getSelectedKey()
-                            else if (field.key === "joiningDate") oEmployeeData[field.key] = aInputs[i].getItems()[1].getValue()
-                            else oEmployeeData[field.key] = aInputs[i].getItems()[1].getValue()
-                        })
+                            let value;
+                            if (field.key === "gender") {
+                                aInputs[i].getItems()[1].getButtons().forEach(btn => {
+                                    if (btn.getSelected()) {
+                                        value = btn.getText()
+                                    }
+                                })
+                                // value = aInputs[i].getItems()[1].getSelectedButton().getText()
+                            }
+                            else if (field.key === "designation") value = aInputs[i].getItems()[1].getSelectedKey()
+                            else if (field.key === "joiningDate") value = aInputs[i].getItems()[1].getValue()
+                            else value = aInputs[i].getItems()[1].getValue();
+
+                            if (value != oEmployeeData[field.key]) {
+                                oEmployeeData[field.key] = value
+                                oEmployeeData.visible = true
+                            }
+
+                        });
+                        viewModel.setProperty('/modelChanged_' + oEmployeeData.id, true);
                         oModel.refresh();
                         oController.oDialog.close();
                     }.bind(oController)
@@ -277,8 +294,8 @@ sap.ui.define([
                         oInput = new sap.m.RadioButtonGroup(id, {
                             columns: 2,
                             buttons: [
-                                new sap.m.RadioButton({ text: "Male", selected: oEmployeeData[field.key] === "Male" }),
-                                new sap.m.RadioButton({ text: "Female", selected: oEmployeeData[field.key] === "Female" }),
+                                new sap.m.RadioButton({ text: "Male", selected: oEmployeeData[field.key] == "Male" }),
+                                new sap.m.RadioButton({ text: "Female", selected: oEmployeeData[field.key] == "Female" }),
                             ]
                         });
                         break;

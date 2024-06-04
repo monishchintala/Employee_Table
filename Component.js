@@ -21,6 +21,14 @@ sap.ui.define([
                 bundleName: "Emp_Table.i18n.i18n"
             });
             oComponent.setModel(i18nModel, "i18n");
+
+            var oViewModel = new JSONModel({
+                busy: true,
+                modelChanged: false,
+                delay: 0
+            });
+
+            oComponent.setModel(oViewModel, "viewModel");
         }
     });
 });

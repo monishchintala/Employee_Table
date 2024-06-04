@@ -17,7 +17,10 @@
 				<Text id="vsdFilterLabel" />
 			</OverflowToolbar>
 		</infoToolbar>
+
 		<columns>
+			<Column>
+			</Column>
 			<Column>
 				<Text text="EmployeeID" />
 			</Column>
@@ -50,6 +53,8 @@
 		<items>
 			<ColumnListItem vAlign="Middle">
 				<cells>
+					
+					<VBox class="customHighlighter" visible="{visible}"><Text text=""/></VBox>
 					<Text text="{id}"/>
 					<Text text="{name}" />
 					<Text text="{designation}" />
@@ -61,6 +66,7 @@
 					<Text text="{address}" />
 					<Button icon="sap-icon://edit" press='onEditPress' />
 				</cells>
+
 			</ColumnListItem>
 		</items>
 	</Table>

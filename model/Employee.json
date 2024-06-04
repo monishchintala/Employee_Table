@@ -25,7 +25,9 @@
 
       "joiningDate": "2017-03-25",
 
-      "address": "123 Main St"
+      "address": "123 Main St",
+
+      "visible": false
     },
 
     {
@@ -45,7 +47,9 @@
 
       "joiningDate": "2018-07-19",
 
-      "address": "456 Elm St"
+      "address": "456 Elm St",
+
+      "visible": false
     },
 
     {
@@ -65,7 +69,9 @@
 
       "joiningDate": "2016-05-30",
 
-      "address": "789 Oak St"
+      "address": "789 Oak St",
+
+      "visible": false
     },
 
     {
@@ -85,7 +91,9 @@
 
       "joiningDate": "2019-11-20",
 
-      "address": "101 Maple St"
+      "address": "101 Maple St",
+
+      "visible": false
     },
 
     {
@@ -105,7 +113,9 @@
 
       "joiningDate": "2015-08-15",
 
-      "address": "202 Pine St"
+      "address": "202 Pine St",
+
+      "visible": false
     },
 
     {
@@ -125,7 +135,9 @@
 
       "joiningDate": "2017-04-10",
 
-      "address": "303 Cedar St"
+      "address": "303 Cedar St",
+
+      "visible": false
     },
 
     {
@@ -145,7 +157,9 @@
 
       "joiningDate": "2018-01-25",
 
-      "address": "404 Birch St"
+      "address": "404 Birch St",
+
+      "visible": false
     },
 
     {
@@ -165,7 +179,9 @@
 
       "joiningDate": "2016-06-14",
 
-      "address": "505 Walnut St"
+      "address": "505 Walnut St",
+
+      "visible": false
     },
 
     {
@@ -185,7 +201,9 @@
 
       "joiningDate": "2015-12-01",
 
-      "address": "606 Cherry St"
+      "address": "606 Cherry St",
+
+      "visible": false
     },
 
     {
@@ -205,7 +223,9 @@
 
       "joiningDate": "2019-03-19",
 
-      "address": "707 Ash St"
+      "address": "707 Ash St",
+
+      "visible": false
     },
 
     {
@@ -225,7 +245,9 @@
 
       "joiningDate": "2017-03-25",
 
-      "address": "123 Main St"
+      "address": "123 Main St",
+
+      "visible": false
     },
 
     {
@@ -245,7 +267,9 @@
 
       "joiningDate": "2018-07-19",
 
-      "address": "456 Elm St"
+      "address": "456 Elm St",
+
+      "visible": false
     },
 
     {
@@ -265,7 +289,9 @@
 
       "joiningDate": "2016-05-30",
 
-      "address": "789 Oak St"
+      "address": "789 Oak St",
+
+      "visible": false
     },
 
     {
@@ -285,7 +311,9 @@
 
       "joiningDate": "2019-11-20",
 
-      "address": "101 Maple St"
+      "address": "101 Maple St",
+
+      "visible": false
     },
 
     {
@@ -305,7 +333,9 @@
 
       "joiningDate": "2015-08-15",
 
-      "address": "202 Pine St"
+      "address": "202 Pine St",
+
+      "visible": false
     },
 
     {
@@ -325,7 +355,9 @@
 
       "joiningDate": "2017-04-10",
 
-      "address": "303 Cedar St"
+      "address": "303 Cedar St",
+
+      "visible": false
     },
 
     {
@@ -345,7 +377,9 @@
 
       "joiningDate": "2018-01-25",
 
-      "address": "404 Birch St"
+      "address": "404 Birch St",
+
+      "visible": false
     },
 
     {
@@ -365,7 +399,9 @@
 
       "joiningDate": "2016-06-14",
 
-      "address": "505 Walnut St"
+      "address": "505 Walnut St",
+
+      "visible": false
     },
 
     {
@@ -385,7 +421,9 @@
 
       "joiningDate": "2015-12-01",
 
-      "address": "606 Cherry St"
+      "address": "606 Cherry St",
+
+      "visible": false
     },
 
     {
@@ -405,7 +443,9 @@
 
       "joiningDate": "2019-03-19",
 
-      "address": "707 Ash St"
+      "address": "707 Ash St",
+
+      "visible": false
     },
 
     {
@@ -425,7 +465,9 @@
 
       "joiningDate": "2020-01-10",
 
-      "address": "808 Willow St"
+      "address": "808 Willow St",
+
+      "visible": false
     },
 
     {
@@ -445,7 +487,8 @@
 
       "joiningDate": "2017-06-15",
 
-      "address": "909 Poplar St"
+      "address": "909 Poplar St",
+      "visible": false
     },
 
     {
@@ -465,7 +508,8 @@
 
       "joiningDate": "2016-10-05",
 
-      "address": "1010 Spruce St"
+      "address": "1010 Spruce St",
+      "visible": false
     },
 
     {
@@ -485,7 +529,8 @@
 
       "joiningDate": "2018-02-20",
 
-      "address": "1111 Pine St"
+      "address": "1111 Pine St",
+      "visible": false
     },
 
     {
@@ -505,7 +550,8 @@
 
       "joiningDate": "2019-09-15",
 
-      "address": "1212 Cedar St"
+      "address": "1212 Cedar St",
+      "visible": false
     }
   ]
 }
