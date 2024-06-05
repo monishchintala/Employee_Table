@@ -180,49 +180,38 @@ sap.ui.define([
         onEditPress: function (oEvent) {
             var oController = this;
             var oModel = oController.getView().getModel();
-            var viewModel = oController.getView().getModel("viewModel")
-            // to get the row Data starts
+            var oI18nModel = oController.getView().getModel("i18n"); // Get the i18n model
+
             var oSelectedItem = oEvent.getSource().getParent();
             var oContext = oSelectedItem.getBindingContext();
-            var oEmployeeData = oContext.getObject();
-            // to get the row Data ends
+            var data = oModel.getProperty(oContext.getPath());
+            var oContext1 = $.extend(true, {}, data);
+
+            var createDialogContent = sap.ui.xmlfragment("Emp_Table.fragments.EditDetailsDialog", oController);
+            createDialogContent.setModel(oI18nModel, "i18n");
             oController.oDialog = new Dialog({
                 title: "Edit Employee Details",
                 contentWidth: "500px",
-                content: oController.generateFields(oEmployeeData),
+                content: createDialogContent,
                 beginButton: new Button({
                     type: ButtonType.Emphasized,
                     text: "Save",
                     press: function () {
-                        var aInputs = oController.oDialog.getContent();
-                        fields.forEach((field, i) => {
-                            let value;
-                            if (field.key === "gender") {
-                                aInputs[i].getItems()[1].getButtons().forEach(btn => {
-                                    if (btn.getSelected()) {
-                                        value = btn.getText()
-                                    }
-                                })
-                                // value = aInputs[i].getItems()[1].getSelectedButton().getText()
+                        for (const key in oContext1) {
+                            const element = oContext1[key];
+                            if (element != data[key]) {
+                                oModel.getProperty(oContext.getPath()).visible = true;
                             }
-                            else if (field.key === "designation") value = aInputs[i].getItems()[1].getSelectedKey()
-                            else if (field.key === "joiningDate") value = aInputs[i].getItems()[1].getValue()
-                            else value = aInputs[i].getItems()[1].getValue();
-
-                            if (value != oEmployeeData[field.key]) {
-                                oEmployeeData[field.key] = value
-                                oEmployeeData.visible = true
-                            }
-
-                        });
-                        viewModel.setProperty('/modelChanged_' + oEmployeeData.id, true);
-                        oModel.refresh();
+                        }
+                        oModel.setProperty(oContext.getPath(), data);
                         oController.oDialog.close();
+
                     }.bind(oController)
                 }),
                 endButton: new Button({
                     text: "Cancel",
                     press: function () {
+                        oModel.setProperty(oContext.getPath(), oContext1);
                         oController.oDialog.close();
                     }.bind(oController)
                 }),
@@ -230,12 +219,25 @@ sap.ui.define([
                     oController.oDialog.destroy(); // Destroy the dialog
                 }
             });
-
-            // to get access to the controller's model
             // oController.getView().addDependent(oController.oDialog);
-            // }
-
+            oController.oDialog.setModel(oModel);
+            oController.oDialog.setBindingContext(oContext);
             oController.oDialog.open();
+        },
+
+        onGenderChange: (oEvent) => {
+            var oController = this
+            var oModel = oEvent.getSource().getModel();
+
+            var oSelectedItemIndex = oEvent.getParameter("selectedIndex")
+            var oRadioButtons = oEvent.getSource().getButtons();
+            var selectedRadioButton = oRadioButtons[oSelectedItemIndex].getText()
+
+            var oSelectedItem = oEvent.getSource()
+            var oBindingContext = oSelectedItem.getBindingContext()
+            var sPath = oBindingContext.getPath()
+
+            oModel.setProperty(sPath + '/gender', selectedRadioButton)
         },
 
         generateSelectItems: (data) => {

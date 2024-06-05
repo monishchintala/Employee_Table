@@ -90,9 +90,6 @@
       "targets": {
         "App": {
           "viewName": "App"
-        },
-        "page2": {
-          "viewName": "Page2"
         }
       }
     }

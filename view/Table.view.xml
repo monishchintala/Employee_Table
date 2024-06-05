@@ -22,38 +22,37 @@
 			<Column>
 			</Column>
 			<Column>
-				<Text text="EmployeeID" />
+				<Text text="{i18n>id}" />
 			</Column>
 			<Column >
-				<Text text="Name" />
+				<Text text="{i18n>name}" />
 			</Column>
 			<Column width="10rem">
-				<Text text="Designation" />
+				<Text text="{i18n>designation}" />
 			</Column>
 			<Column >
-				<Text text="PhoneNumber" />
+				<Text text="{i18n>number}" />
 			</Column>
 			<Column width="13rem">
-				<Text text="Email" />
+				<Text text="{i18n>email}" />
 			</Column>
 			<Column >
-				<Text text="Salary" />
+				<Text text="{i18n>salary}" />
 			</Column>
 			<Column >
-				<Text text="Gender" />
+				<Text text="{i18n>gender}" />
 			</Column>
 			<Column >
-				<Text text="JoiningDate" />
+				<Text text="{i18n>joiningDate}" />
 			</Column>
 			<Column >
-				<Text text="Address" />
+				<Text text="{i18n>address}" />
 			</Column>
 			<Column hAlign="Center"/>
 		</columns>
 		<items>
 			<ColumnListItem vAlign="Middle">
 				<cells>
-					
 					<VBox class="customHighlighter" visible="{visible}"><Text text=""/></VBox>
 					<Text text="{id}"/>
 					<Text text="{name}" />
