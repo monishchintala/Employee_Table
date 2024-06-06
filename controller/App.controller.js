@@ -6,8 +6,7 @@ sap.ui.define(
     "use strict";
 
     return Controller.extend("Emp_Table.controller.App", {
-      onInit: function () {
-
+      onInit: function () {      
       },
 
 
