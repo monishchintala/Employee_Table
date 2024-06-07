@@ -132,86 +132,42 @@ sap.ui.define([
         onEditPress: function (oEvent) {
             var oController = this;
             var oModel = oController.getView().getModel();
-            let flag = oModel.getProperty("/isPane2Opened")
-            if (!flag) {
-                var oSelectedItem = oEvent.getSource().getParent();
-                var oContext = oSelectedItem.getBindingContext();
-                var data = oModel.getProperty(oContext.getPath());
-                var oContext1 = $.extend(true, {}, data);
 
-                oModel.setProperty("/previousRowData", oContext1)
-                oModel.setProperty("/isPane2Opened", true)
+            var oSelectedItem = oEvent.getSource().getParent();
+            var oContext = oSelectedItem.getBindingContext();
+            var data = oModel.getProperty(oContext.getPath());
+            var oContext1 = $.extend(true, {}, data);
 
-                var oSplitter = oController.getView().getParent().getParent()
-                oSplitter.getPanes()[0].getLayoutData().setSize("75%");
-                var oSplitterLayoutData = new SplitterLayoutData({
-                    size: "25%"
-                });
-                var oSplitPane = new SplitPane({
-                    layoutData: oSplitterLayoutData
-                });
-                var sFragmentId = this.createId("fragment_" + new Date().getTime());
+            oModel.setProperty("/previousRowData", oContext1)
+            oModel.setProperty("/isPane2Opened", true)
 
-                Fragment.load({
-                    id: sFragmentId,
-                    name: "Emp_Table.fragments.EditDetailsDialog",
-                    type: "XML",
-                    controller: this // Optional: pass the current controller if the fragment needs it
-                }).then(function (oFragment) {
-                    oSplitPane.setContent(oFragment);
-                    oSplitter.addPane(oSplitPane);
-                }.bind(this));
-
-                // var content = sap.ui.xmlfragment("Emp_Table.fragments.EditDetailsDialog", oController);
-
-                // oSplitPane.setContent(content);
-                // oSplitter.addPane(oSplitPane);
-
-                oSplitter.setModel(oModel);
-                oSplitter.setBindingContext(oContext);
+            var oSplitter = oController.getView().getParent().getParent()
+            if (oSplitter.getPanes() && oSplitter.getPanes()[1]) {
+                oSplitter.removePane(1);
             }
+            oSplitter.getPanes()[0].getLayoutData().setSize("75%");
+            var oSplitterLayoutData = new SplitterLayoutData({
+                size: "25%"
+            });
+            var oSplitPane = new SplitPane({
+                layoutData: oSplitterLayoutData
+            });
+            var sFragmentId = this.createId("fragment_" + new Date().getTime());
 
+            Fragment.load({
+                id: sFragmentId,
+                name: "Emp_Table.fragments.EditDetailsDialog",
+                type: "XML",
+                controller: this 
+            }).then(function (oFragment) {
+                oSplitPane.setContent(oFragment);
+                oSplitter.addPane(oSplitPane);
+            }.bind(this));
 
+            
 
-            // var oI18nModel = oController.getView().getModel("i18n"); // Get the i18n model
-
-
-            // var createDialogContent = sap.ui.xmlfragment("Emp_Table.fragments.EditDetailsDialog", oController);
-            // createDialogContent.setModel(oI18nModel, "i18n");
-            // oController.oDialog = new Dialog({
-            //     title: "Edit Employee Details",
-            //     contentWidth: "500px",
-            //     content: createDialogContent,
-            //     beginButton: new Button({
-            //         type: ButtonType.Emphasized,
-            //         text: "Save",
-            //         press: function () {
-            //             for (const key in oContext1) {
-            //                 const element = oContext1[key];
-            //                 if (element != data[key]) {
-            //                     oModel.getProperty(oContext.getPath()).visible = true;
-            //                 }
-            //             }
-            //             oModel.setProperty(oContext.getPath(), data);
-            //             oController.oDialog.close();
-
-            //         }.bind(oController)
-            //     }),
-            //     endButton: new Button({
-            //         text: "Cancel",
-            //         press: function () {
-            //             oModel.setProperty(oContext.getPath(), oContext1);
-            //             oController.oDialog.close();
-            //         }.bind(oController)
-            //     }),
-            //     afterClose: function () {
-            //         oController.oDialog.destroy(); // Destroy the dialog
-            //     }
-            // });
-            // // oController.getView().addDependent(oController.oDialog);
-            // oController.oDialog.setModel(oModel);
-            // oController.oDialog.setBindingContext(oContext);
-            // oController.oDialog.open();
+            oSplitter.setModel(oModel);
+            oSplitter.setBindingContext(oContext);
         },
         onGenderChange: (oEvent) => {
             var oController = this
@@ -254,12 +210,10 @@ sap.ui.define([
             var oModel = oController.getView().getModel();
             var oSelectedItem = oEvent.getSource().getParent();
             var oContext = oSelectedItem.getBindingContext();
-
             var oSplitter = oController.getView().getParent().getParent()
             oSplitter.getPanes()[0].getLayoutData().setSize("100%");
             oSplitter.removePane(1);
 
-            oModel.setProperty("/isPane2Opened", false)
             var data = oModel.getProperty("/previousRowData")
             oModel.setProperty(oContext.getPath(), data);
         }

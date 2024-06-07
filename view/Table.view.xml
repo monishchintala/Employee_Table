@@ -2,7 +2,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m">
-	<Table id="idEmpTable" sticky="ColumnHeaders" growingThreshold="10" growing="true" fixedLayout="false" items="{path: '/EmployeeData'}">
+	<Table id="idEmpTable" fixedLayout="false" items="{path: '/EmployeeData'}">
 		<headerToolbar>
 			<OverflowToolbar>
 				<Title text="Employee Table" level="H2"/>
@@ -53,7 +53,9 @@
 		<items>
 			<ColumnListItem vAlign="Middle">
 				<cells>
-					<VBox class="customHighlighter" visible="{visible}"><Text text=""/></VBox>
+					<VBox class="customHighlighter" visible="{visible}">
+						<Text text=""/>
+					</VBox>
 					<Text text="{id}"/>
 					<Text text="{name}" />
 					<Text text="{designation}" />
