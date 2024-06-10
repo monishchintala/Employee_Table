@@ -4,7 +4,7 @@
     xmlns:l="sap.ui.layout"
     xmlns="sap.m">
     <App id="app">
-        <Page showHeader="false">
+        <Page showHeader="false" showFooter="{viewModel>/footerVisible}">
             <IconTabBar id="idIconTabBar" class="sapUiResponsiveContentPadding">
                 <items>
                     <IconTabFilter text="Table" key="table">
@@ -31,6 +31,13 @@
                     </IconTabFilter>
                 </items>
             </IconTabBar>
+            <footer>
+                <Toolbar>
+                    <ToolbarSpacer />
+                    <Button text="Save" type="Emphasized" press="onSave" />
+                    <Button text="Cancel" press="onCancel" />
+                </Toolbar>
+            </footer>
         </Page>
     </App>
 

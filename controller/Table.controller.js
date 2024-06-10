@@ -129,17 +129,18 @@ sap.ui.define([
             }
         },
 
-        onEditPress: function (oEvent) {
+        onItemPress: function (oEvent) {
             var oController = this;
             var oModel = oController.getView().getModel();
+            var viewModel = oController.getView().getModel("viewModel");
 
-            var oSelectedItem = oEvent.getSource().getParent();
+            var oSelectedItem = oEvent.getParameter('listItem')
             var oContext = oSelectedItem.getBindingContext();
             var data = oModel.getProperty(oContext.getPath());
             var oContext1 = $.extend(true, {}, data);
 
-            oModel.setProperty("/previousRowData", oContext1)
-            oModel.setProperty("/isPane2Opened", true)
+            viewModel.setProperty("/previousRowData", oContext1)
+            viewModel.setProperty("/sPath", oContext.getPath())
 
             var oSplitter = oController.getView().getParent().getParent()
             if (oSplitter.getPanes() && oSplitter.getPanes()[1]) {
@@ -158,20 +159,21 @@ sap.ui.define([
                 id: sFragmentId,
                 name: "Emp_Table.fragments.EditDetailsDialog",
                 type: "XML",
-                controller: this 
+                controller: this
             }).then(function (oFragment) {
                 oSplitPane.setContent(oFragment);
                 oSplitter.addPane(oSplitPane);
             }.bind(this));
-
-            
-
             oSplitter.setModel(oModel);
             oSplitter.setBindingContext(oContext);
         },
-        onGenderChange: (oEvent) => {
+        onGenderChange: function (oEvent) {
             var oController = this
             var oModel = oEvent.getSource().getModel();
+            var viewModel = oController.getView().getModel("viewModel");
+
+
+
 
             var oSelectedItemIndex = oEvent.getParameter("selectedIndex")
             var oRadioButtons = oEvent.getSource().getButtons();
@@ -182,40 +184,33 @@ sap.ui.define([
             var sPath = oBindingContext.getPath()
 
             oModel.setProperty(sPath + '/gender', selectedRadioButton)
+            oModel.setProperty(sPath + '/visible', true)
+            viewModel.setProperty("/footerVisible", true)
         },
 
-        onUpdate: function (oEvent) {
+        onChange: function (oEvent) {
             var oController = this;
-            var oModel = oController.getView().getModel();
-            var oSelectedItem = oEvent.getSource().getParent();
-            var oContext = oSelectedItem.getBindingContext();
-            var updatedData = oModel.getProperty(oContext.getPath());
+            var oModel = oEvent.getSource().getModel();
+            var viewModel = oController.getView().getModel("viewModel");
 
-            var oContext1 = oModel.getProperty("/previousRowData")
-            for (const key in oContext1) {
-                const element = oContext1[key];
+            var sPath = viewModel.getProperty("/sPath");
+            var updatedData = oModel.getProperty(sPath);
+            var previousRowData = viewModel.getProperty("/previousRowData")
+            for (const key in previousRowData) {
+                const element = previousRowData[key];
                 if (element != updatedData[key]) {
                     updatedData.visible = true;
                 }
             }
-            oModel.setProperty(oContext.getPath(), updatedData);
-
-            var oSplitter = oController.getView().getParent().getParent()
-            oSplitter.getPanes()[0].getLayoutData().setSize("100%");
-            oSplitter.removePane(1);
+            oModel.setProperty(sPath, updatedData);
+            viewModel.setProperty("/footerVisible", true)
         },
 
         onClose: function (oEvent) {
             var oController = this;
-            var oModel = oController.getView().getModel();
-            var oSelectedItem = oEvent.getSource().getParent();
-            var oContext = oSelectedItem.getBindingContext();
-            var oSplitter = oController.getView().getParent().getParent()
+            var oSplitter = oController.getView().getParent().getParent();
             oSplitter.getPanes()[0].getLayoutData().setSize("100%");
             oSplitter.removePane(1);
-
-            var data = oModel.getProperty("/previousRowData")
-            oModel.setProperty(oContext.getPath(), data);
         }
     });
     return TableController;
