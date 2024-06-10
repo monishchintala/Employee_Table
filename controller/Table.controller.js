@@ -13,6 +13,9 @@ sap.ui.define([
     var TableController = Controller.extend("Emp_Table.controller.Table", {
         onInit: function () {
             var oController = this;
+            var oModel = oController.getOwnerComponent().getModel();
+            var viewModel = oController.getOwnerComponent().getModel("viewModel");
+
             oController._mViewSettingsDialogs = {}
 
             this.mGroupFunctions = {
@@ -24,6 +27,10 @@ sap.ui.define([
                     };
                 },
             };
+
+            var rawData = oModel.getProperty("/EmployeeData");
+            rawData = JSON.parse(JSON.stringify(rawData))
+            viewModel.setProperty("/rawData", rawData)
 
         },
         resetGroupDialog: function (oEvent) {
@@ -135,6 +142,7 @@ sap.ui.define([
             var viewModel = oController.getView().getModel("viewModel");
 
             var oSelectedItem = oEvent.getParameter('listItem')
+            oSelectedItem.setSelected(true)
             var oContext = oSelectedItem.getBindingContext();
             var data = oModel.getProperty(oContext.getPath());
             var oContext1 = $.extend(true, {}, data);
@@ -208,6 +216,9 @@ sap.ui.define([
 
         onClose: function (oEvent) {
             var oController = this;
+
+            var oTable = oController.getView().byId("idEmpTable");
+            oTable.getSelectedItem().setSelected(false)
             var oSplitter = oController.getView().getParent().getParent();
             oSplitter.getPanes()[0].getLayoutData().setSize("100%");
             oSplitter.removePane(1);

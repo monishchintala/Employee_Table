@@ -16,23 +16,22 @@ sap.ui.define(
         var oModel = oController.getView().getModel();
         var viewModel = oController.getView().getModel("viewModel");
 
-        var sPath = viewModel.getProperty("/sPath");
-        var updatedData = oModel.getProperty(sPath);
 
-        // var previousRowData = viewModel.getProperty("/previousRowData")
-        // for (const key in previousRowData) {
-        //   const element = previousRowData[key];
-        //   if (element != updatedData[key]) {
-        //     updatedData.visible = true;
-        //   }
-        // }
-        updatedData.visible = false;
-        oModel.setProperty(sPath, updatedData);
+        var oData = oModel.getProperty("/EmployeeData");
+
+        oData.forEach(element => {
+          if (element.visible) element.visible = false;
+        })
+        oModel.setProperty("/EmployeeData", oData);
+
         viewModel.setProperty("/footerVisible", false);
 
         var oSplitter = oController.getView().getContent()[0].getPages()[0].getContent()[0].getItems()[0].getContent()[0].getRootPaneContainer()
         oSplitter.getPanes()[0].getLayoutData().setSize("100%");
         oSplitter.removePane(1);
+
+        var oTable = oSplitter.getPanes()[0].getContent().getContent()[0];
+        oTable.getSelectedItem().setSelected(false)
       },
 
       onCancel: function (oEvent) {
@@ -40,15 +39,30 @@ sap.ui.define(
         var oModel = oController.getView().getModel();
         var viewModel = oController.getView().getModel("viewModel");
 
-        var data = viewModel.getProperty("/previousRowData");
-        var sPath = viewModel.getProperty("/sPath");
-        oModel.setProperty(sPath, data);
-        viewModel.setProperty("/footerVisible", false);
 
+
+        var data = viewModel.getProperty("/rawData");
+        var currentData = oModel.getProperty("/EmployeeData");
+
+        currentData.forEach((element, i) => {
+          if (element.visible) {
+            element.visible = false;
+            oModel.setProperty(`/EmployeeData/${i}`, data[i])
+          }
+        });
+
+
+        // oModel.setProperty(sPath, data);
+
+
+        viewModel.setProperty("/footerVisible", false);
 
         var oSplitter = oController.getView().getContent()[0].getPages()[0].getContent()[0].getItems()[0].getContent()[0].getRootPaneContainer()
         oSplitter.getPanes()[0].getLayoutData().setSize("100%");
         oSplitter.removePane(1);
+
+        var oTable = oSplitter.getPanes()[0].getContent().getContent()[0];
+        oTable.getSelectedItem().setSelected(false)
 
       }
     });
