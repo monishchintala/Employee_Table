@@ -28,9 +28,6 @@ sap.ui.define([
                 },
             };
 
-            var rawData = oModel.getProperty("/EmployeeData");
-            rawData = JSON.parse(JSON.stringify(rawData))
-            viewModel.setProperty("/rawData", rawData)
 
         },
         resetGroupDialog: function (oEvent) {
@@ -143,11 +140,9 @@ sap.ui.define([
 
             var oSelectedItem = oEvent.getParameter('listItem')
             oSelectedItem.setSelected(true)
+            
             var oContext = oSelectedItem.getBindingContext();
-            var data = oModel.getProperty(oContext.getPath());
-            var oContext1 = $.extend(true, {}, data);
 
-            viewModel.setProperty("/previousRowData", oContext1)
             viewModel.setProperty("/sPath", oContext.getPath())
 
             var oSplitter = oController.getView().getParent().getParent()
@@ -180,9 +175,6 @@ sap.ui.define([
             var oModel = oEvent.getSource().getModel();
             var viewModel = oController.getView().getModel("viewModel");
 
-
-
-
             var oSelectedItemIndex = oEvent.getParameter("selectedIndex")
             var oRadioButtons = oEvent.getSource().getButtons();
             var selectedRadioButton = oRadioButtons[oSelectedItemIndex].getText()
@@ -200,17 +192,8 @@ sap.ui.define([
             var oController = this;
             var oModel = oEvent.getSource().getModel();
             var viewModel = oController.getView().getModel("viewModel");
-
             var sPath = viewModel.getProperty("/sPath");
-            var updatedData = oModel.getProperty(sPath);
-            var previousRowData = viewModel.getProperty("/previousRowData")
-            for (const key in previousRowData) {
-                const element = previousRowData[key];
-                if (element != updatedData[key]) {
-                    updatedData.visible = true;
-                }
-            }
-            oModel.setProperty(sPath, updatedData);
+            oModel.setProperty(sPath + '/visible', true)
             viewModel.setProperty("/footerVisible", true)
         },
 

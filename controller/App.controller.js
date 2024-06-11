@@ -8,14 +8,17 @@ sap.ui.define(
     return Controller.extend("Emp_Table.controller.App", {
       onInit: function () {
         var oController = this;
+        var oModel = oController.getOwnerComponent().getModel()
         var viewModel = oController.getOwnerComponent().getModel("viewModel")
-        viewModel.setProperty("/footerVisible", false)
+        viewModel.setProperty("/footerVisible", false);
+        var data = oModel.getProperty("/EmployeeData");
+        var rawData = $.extend(true, [], data);
+        viewModel.setProperty("/rawData", rawData);
       },
       onSave: function (oEvent) {
         var oController = this;
         var oModel = oController.getView().getModel();
         var viewModel = oController.getView().getModel("viewModel");
-
 
         var oData = oModel.getProperty("/EmployeeData");
 
@@ -23,6 +26,8 @@ sap.ui.define(
           if (element.visible) element.visible = false;
         })
         oModel.setProperty("/EmployeeData", oData);
+        var rawData = $.extend(true, [], oData);
+        viewModel.setProperty("/rawData", rawData);
 
         viewModel.setProperty("/footerVisible", false);
 
@@ -53,6 +58,9 @@ sap.ui.define(
 
 
         // oModel.setProperty(sPath, data);
+
+        var rawData = $.extend(true, [], currentData);
+        viewModel.setProperty("/rawData", rawData);
 
 
         viewModel.setProperty("/footerVisible", false);

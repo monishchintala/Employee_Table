@@ -15,7 +15,8 @@ sap.ui.define([
             this.getRouter().initialize();
             var oComponent = this;
             const oModel = new JSONModel();
-            oModel.loadData('./model/Employee.json')
+            oModel.loadData('./model/Employee.json');
+
             oComponent.setModel(oModel);
 
             var oViewModel = new JSONModel({
