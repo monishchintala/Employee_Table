@@ -2,10 +2,10 @@
     xmlns:f="sap.ui.layout.form"
     xmlns:core="sap.ui.core">
     <!--<Button icon="sap-icon://save" tooltip="Update Details" type="Transparent" press="onUpdate"/>-->
-    <f:SimpleForm title="Edit Details" layout="ResponsiveGridLayout">
+    <f:SimpleForm title="Details" layout="ResponsiveGridLayout">
         <f:toolbar>
             <Toolbar >
-                <Title text="Edit Details"/>
+                <Title text="Details"/>
                 <ToolbarSpacer />
                 <Button icon="sap-icon://decline" tooltip="Close" type="Transparent" press="onClose"/>
             </Toolbar>

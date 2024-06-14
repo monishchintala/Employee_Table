@@ -36,7 +36,11 @@ sap.ui.define(
         oSplitter.removePane(1);
 
         var oTable = oSplitter.getPanes()[0].getContent().getContent()[0];
-        oTable.getSelectedItem().setSelected(false)
+        if (oTable.getMode() == 'MultiSelect') {
+          oTable.getSelectedItems().forEach(item => item.setSelected(false))
+        } else {
+          oTable.getSelectedItem().setSelected(false)
+        }
       },
 
       onCancel: function (oEvent) {
@@ -70,7 +74,12 @@ sap.ui.define(
         oSplitter.removePane(1);
 
         var oTable = oSplitter.getPanes()[0].getContent().getContent()[0];
-        oTable.getSelectedItem().setSelected(false)
+
+        if (oTable.getMode() == 'MultiSelect') {
+          oTable.getSelectedItems().forEach(item => item.setSelected(false))
+        } else {
+          oTable.getSelectedItem().setSelected(false)
+        }
 
       }
     });

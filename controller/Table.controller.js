@@ -10,6 +10,8 @@ sap.ui.define([
     "sap/ui/layout/SplitterLayoutData"
 ], function (Controller, JSONModel, Device, Filter, Sorter, Library, Fragment, SplitPane, SplitterLayoutData) {
     "use strict";
+
+
     var TableController = Controller.extend("Emp_Table.controller.Table", {
         onInit: function () {
             var oController = this;
@@ -132,18 +134,31 @@ sap.ui.define([
                 this.groupReset = false;
             }
         },
-
         onItemPress: function (oEvent) {
+            var oController = this;
+            oController.onSelectionchange(oEvent, true)
+        },
+
+        onSelectionchange: function (oEvent, flag) {
             var oController = this;
             var oModel = oController.getView().getModel();
             var viewModel = oController.getView().getModel("viewModel");
 
-            var oSelectedItem = oEvent.getParameter('listItem')
-            oSelectedItem.setSelected(true)
-            
-            var oContext = oSelectedItem.getBindingContext();
+            var oTable = oEvent.getSource();
 
-            viewModel.setProperty("/sPath", oContext.getPath())
+            var oSelectedItem = oEvent.getParameter('listItem')
+            var mode = oTable.getMode();
+            if (flag) {
+                if (mode == 'SingleSelectLeft') {
+                    oSelectedItem.setSelected(true)
+                } else {
+                    if (oSelectedItem.getSelected()) {
+                        oSelectedItem.setSelected(false)
+                    } else {
+                        oSelectedItem.setSelected(true)
+                    }
+                }
+            }
 
             var oSplitter = oController.getView().getParent().getParent()
             if (oSplitter.getPanes() && oSplitter.getPanes()[1]) {
@@ -156,19 +171,39 @@ sap.ui.define([
             var oSplitPane = new SplitPane({
                 layoutData: oSplitterLayoutData
             });
-            var sFragmentId = this.createId("fragment_" + new Date().getTime());
 
-            Fragment.load({
-                id: sFragmentId,
-                name: "Emp_Table.fragments.EditDetailsDialog",
-                type: "XML",
-                controller: this
-            }).then(function (oFragment) {
-                oSplitPane.setContent(oFragment);
+            var selectedItems = oTable.getSelectedContexts();
+
+            if (mode == 'SingleSelectLeft' || selectedItems.length === 1) {
+                var oContext
+                if (mode == 'SingleSelectLeft') {
+                    oContext = oSelectedItem.getBindingContext();
+                } else {
+                    oContext = selectedItems[0];
+                }
+                viewModel.setProperty("/sPath", oContext.getPath())
+                var sFragmentId = this.createId("fragment_" + new Date().getTime());
+                Fragment.load({
+                    id: sFragmentId,
+                    name: "Emp_Table.fragments.EditDetailsDialog",
+                    type: "XML",
+                    controller: this
+                }).then(function (oFragment) {
+                    oSplitPane.setContent(oFragment);
+                    oSplitter.addPane(oSplitPane);
+                }.bind(this));
+                oSplitter.setModel(oModel);
+                oSplitter.setBindingContext(oContext);
+            } else {
+                oSplitPane.setContent(oController.createContent(oController, selectedItems));
                 oSplitter.addPane(oSplitPane);
-            }.bind(this));
-            oSplitter.setModel(oModel);
-            oSplitter.setBindingContext(oContext);
+            }
+
+
+
+
+
+
         },
         onGenderChange: function (oEvent) {
             var oController = this
@@ -205,6 +240,139 @@ sap.ui.define([
             var oSplitter = oController.getView().getParent().getParent();
             oSplitter.getPanes()[0].getLayoutData().setSize("100%");
             oSplitter.removePane(1);
+        },
+        onSwitch: function (oEvent) {
+            var oController = this;
+            var oTable = oEvent.getSource().getParent().getParent();
+            var flag = oEvent.getSource().getState()
+            if (flag) {
+                oTable.setMode('MultiSelect')
+            } else {
+                oTable.setMode('SingleSelectLeft')
+            }
+        },
+
+        createContent: function (oController, selectedItems) {
+
+
+            var oToolbar = new sap.m.Toolbar({
+                content: [
+                    new sap.m.Title({ text: "Details" }),
+                    new sap.m.ToolbarSpacer(),
+                    new sap.m.Button({
+                        icon: "sap-icon://decline",
+                        tooltip: "Close",
+                        type: "Transparent",
+                        press: [oController.onClose, oController]
+                    })
+                ]
+            });
+
+
+            var content = oController.prepareItems(oController, selectedItems)
+
+
+
+            var oForm = new sap.ui.layout.form.SimpleForm({
+                title: "Edit Details",
+                layout: "ResponsiveGridLayout",
+                toolbar: oToolbar,
+                content: content
+            });
+
+            return oForm;
+        },
+        onComboBoxChange: function (oEvent, selectedItems) {
+            var oController = this;
+            var oModel = oEvent.getSource().getModel();
+            var viewModel = oController.getView().getModel("viewModel");
+
+            var prop = oEvent.getSource().getProperty("name");
+            var value = oEvent.getParameter("value");
+
+            if (value === "< Keep Existing Values >") {
+                return;
+            } else {
+                selectedItems.forEach(selectedItem => {
+                    var sPath = selectedItem.sPath + "/" + prop
+                    if (value === "< Leave Blank >") {
+                        oModel.setProperty(sPath, "")
+                    } else {
+                        oModel.setProperty(sPath, value)
+                    }
+                    oModel.setProperty(selectedItem.sPath + '/visible', true)
+                })
+            }
+            viewModel.setProperty("/footerVisible", true)
+        },
+        prepareItems: function (oController, selectedItems) {
+            var oModel = oController.getView().getModel();
+
+            var items = [];
+
+            var props = [
+                "name",
+                "designation",
+                "number",
+                "salary",
+                "gender",
+                "joiningDate",
+                "address",
+            ];
+
+            props.forEach(prop => {
+                var comboBox;
+                if (["name", "number", "joiningDate", "address"].includes(prop)) {
+                    comboBox = new sap.m.Label()
+                    comboBox.setText("(multiple)");
+                } else {
+                    var aItems = [
+                        {
+                            text: "< Keep Existing Values >",
+                            key: "< Keep Existing Values >",
+                        },
+                        {
+                            text: "< Leave Blank >",
+                            key: "< Leave Blank >",
+                        },
+                    ]
+                    selectedItems.forEach(selectedItem => {
+                        var value = oModel.getProperty(selectedItem.sPath + '/' + prop)
+                        var index = aItems.findIndex(aItem => aItem.key == value)
+
+                        if (index == -1) {
+                            aItems.push({
+                                text: value,
+                                key: value,
+                            })
+                        }
+                    })
+                    var comboBox = new sap.m.ComboBox({
+                        selectedKey: "< Keep Existing Values >",
+                        items: aItems,
+                        change: (oEvent) => oController.onComboBoxChange(oEvent, selectedItems),
+                        name: prop
+                    });
+                }
+                var vBox = new sap.m.VBox({
+                    items: [
+                        new sap.m.HBox({
+                            alignItems: "Center",
+                            width: "100%",
+                            justifyContent: "Start",
+                            items: [
+                                new sap.m.Label({
+                                    text: `{i18n>${prop}}: `,
+                                    width: "120px"
+                                }),
+                                comboBox
+                            ]
+                        })
+                    ]
+                }).addStyleClass("sapUiTinyMarginTop sapUiTinyMarginBottom")
+                items.push(vBox)
+            })
+            return items;
         }
     });
     return TableController;
