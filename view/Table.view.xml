@@ -57,7 +57,7 @@
 			<!-- <Column hAlign="Center"/> -->
 		</columns>
 		<items>
-			<ColumnListItem vAlign="Middle" type="Active">
+			<ColumnListItem vAlign="Middle" type="Navigation">
 				<cells>
 					<VBox class="customHighlighter" visible="{visible}">
 						<Text text=""/>
@@ -71,7 +71,7 @@
 					<Text text="{gender}" />
 					<Text text="{joiningDate}" />
 					<Text text="{address}" />
-					<!-- <Button icon="sap-icon://edit" press='onEditPress' /> -->
+					<!-- <Button icon="sap-icon://open-command-field" press='.onDrillDown' type="Transparent" /> -->
 				</cells>
 
 			</ColumnListItem>

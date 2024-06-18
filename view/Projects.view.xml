@@ -1,0 +1,13 @@
+<mvc:View controllerName="Emp_Table.controller.Projects"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page title="{i18n>ListOfAssignedProjects}" showNavButton="true" navButtonPress=".onNavBack" class="sapUiResponsiveContentPadding">
+        <content>
+            <List items="{projects}">
+                <items>
+                    <StandardListItem title="{projectName}" iconDensityAware="false" iconInset="false" type="Navigation"/>
+                </items>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

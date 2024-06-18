@@ -134,10 +134,10 @@ sap.ui.define([
                 this.groupReset = false;
             }
         },
-        onItemPress: function (oEvent) {
-            var oController = this;
-            oController.onSelectionchange(oEvent, true)
-        },
+        // onItemPress: function (oEvent) {
+        //     var oController = this;
+        //     oController.onSelectionchange(oEvent, true)
+        // },
 
         onSelectionchange: function (oEvent, flag) {
             var oController = this;
@@ -254,7 +254,6 @@ sap.ui.define([
 
         createContent: function (oController, selectedItems) {
 
-
             var oToolbar = new sap.m.Toolbar({
                 content: [
                     new sap.m.Title({ text: "Details" }),
@@ -313,7 +312,7 @@ sap.ui.define([
             var props = [
                 "name",
                 "designation",
-                "number",
+                "phone",
                 "salary",
                 "gender",
                 "joiningDate",
@@ -322,9 +321,18 @@ sap.ui.define([
 
             props.forEach(prop => {
                 var comboBox;
-                if (["name", "number", "joiningDate", "address"].includes(prop)) {
+                if (["name", "phone", "joiningDate", "address"].includes(prop)) {
                     comboBox = new sap.m.Label()
-                    comboBox.setText("(multiple)");
+                    var commonValue = oModel.getProperty(selectedItems[0].sPath + '/' + prop);
+                    var sameValueExisted = selectedItems.every(item => {
+                        var value = oModel.getProperty(item.sPath + '/' + prop);
+                        return value == commonValue;
+                    })
+                    if (sameValueExisted) {
+                        comboBox.setText(commonValue);
+                    } else {
+                        comboBox.setText("(multiple)");
+                    }
                 } else {
                     var aItems = [
                         {
@@ -373,6 +381,18 @@ sap.ui.define([
                 items.push(vBox)
             })
             return items;
+        },
+
+        onItemPress: function (oEvent) {
+            var oController = this;
+            var oModel = oController.getView().getModel();
+            var oContext = oEvent.getParameter("listItem").getBindingContext()
+            var sPath = oContext.getPath()
+            var id = oModel.getProperty(sPath + '/id')
+            var oRouter = oController.getOwnerComponent().getRouter();
+            oRouter.navTo("Projects", {
+                id: id,
+            });
         }
     });
     return TableController;

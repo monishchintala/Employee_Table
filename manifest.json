@@ -85,11 +85,21 @@
           "view": "App",
           "target": "App",
           "controlAggregation": "pages"
+        },
+        {
+          "pattern": "Projects/{id}",
+          "name": "Projects",
+          "view": "Projects",
+          "target": "Projects",
+          "controlAggregation": "pages"
         }
       ],
       "targets": {
         "App": {
           "viewName": "App"
+        },
+        "Projects": {
+          "viewName": "Projects"
         }
       }
     }
