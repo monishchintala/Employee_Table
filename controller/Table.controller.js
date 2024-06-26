@@ -234,7 +234,6 @@ sap.ui.define([
 
         onClose: function (oEvent) {
             var oController = this;
-
             var oTable = oController.getView().byId("idEmpTable");
             oTable.getSelectedItem().setSelected(false)
             var oSplitter = oController.getView().getParent().getParent();

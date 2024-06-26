@@ -1,13 +1,57 @@
 <mvc:View controllerName="Emp_Table.controller.Projects"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
     xmlns="sap.m">
-    <Page title="{i18n>ListOfAssignedProjects}" showNavButton="true" navButtonPress=".onNavBack" class="sapUiResponsiveContentPadding">
+    <Page title="{i18n>ListOfAssignedProjects}" showNavButton="true" navButtonPress=".onNavBack" class="sapUiResponsiveContentPadding" showFooter="{viewModel>/footerVisible}">
         <content>
-            <List items="{projects}">
-                <items>
-                    <StandardListItem title="{projectName}" iconDensityAware="false" iconInset="false" type="Navigation"/>
-                </items>
-            </List>
+            <l:ResponsiveSplitter defaultPane="default">
+                <l:PaneContainer >
+                    <l:SplitPane>
+                        <l:layoutData>
+                            <l:SplitterLayoutData size="100%" />
+                        </l:layoutData>
+                        <Table id="projectsTable" mode="SingleSelectLeft" selectionChange=".onSelectionchange" fixedLayout="false" items="{path: 'projects'}">
+                            <columns>
+                                <Column>
+                                    <Text text="{i18n>projectId}" />
+                                </Column>
+                                <Column >
+                                    <Text text="{i18n>projectName}" />
+                                </Column>
+                                <Column>
+                                    <Text text="{i18n>role}" />
+                                </Column>
+                                <Column >
+                                    <Text text="{i18n>startDate}" />
+                                </Column>
+                                <Column >
+                                    <Text text="{i18n>endDate}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle">
+                                    <cells>
+                                        <Text text="{projectId}" />
+                                        <Text text="{projectName}" />
+                                        <Text text="{role}" />
+                                        <Text text="{startDate}" />
+                                        <Text text="{endDate}" />
+                                    </cells>
+
+                                </ColumnListItem>
+                            </items>
+
+                        </Table>
+                    </l:SplitPane>
+                </l:PaneContainer>
+            </l:ResponsiveSplitter>
         </content>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button text="Save" type="Emphasized" press="onSave" />
+                <Button text="Cancel" press="onCancel" />
+            </Toolbar>
+        </footer>
     </Page>
 </mvc:View>

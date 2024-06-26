@@ -1,0 +1,54 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <f:SimpleForm title="Project Details" layout="ResponsiveGridLayout">
+        <f:toolbar>
+            <Toolbar >
+                <Title text="Project Details"/>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://decline" tooltip="Close" type="Transparent" press="onClose"/>
+            </Toolbar>
+        </f:toolbar>
+        <f:content>
+            <VBox>
+                <HBox alignItems="Center" width="100%" justifyContent="Start">
+                    <Label text="{i18n>projectName}: " width="120px"/>
+                    <Input value="{projectName}" liveChange=".onChange"/>
+                </HBox>
+            </VBox>
+            <VBox>
+                <HBox alignItems="Center" width="100%" justifyContent="Start">
+                    <Label text="{i18n>role}: " width="120px"/>
+                    <Input value="{role}" liveChange=".onChange"/>
+                </HBox>
+            </VBox>
+
+            <!-- <VBox>
+                <HBox alignItems="Center" width="100%" justifyContent="Start">
+                    <Label text="{i18n>role}: " width="120px"/>
+                    <Select selectedKey="{role}" change=".onChange" items="{
+							path: '/Designations',
+                            sorter: {path:'value'} 
+						}">
+                        <core:Item key="{value}" text="{value}" />
+                    </Select>
+                </HBox>
+            </VBox> -->
+
+            <VBox>
+                <HBox alignItems="Center" width="100%" justifyContent="Start">
+                    <Label text="{i18n>startDate}: " width="120px"/>
+                    <DatePicker placeholder="Enter Date" value="{startDate}" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change=".onChange" />
+                </HBox>
+            </VBox>
+
+            <VBox>
+                <HBox alignItems="Center" width="100%" justifyContent="Start">
+                    <Label text="{i18n>endDate}: " width="120px"/>
+                    <DatePicker placeholder="Enter Date" value="{endDate}" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change=".onChange" />
+                </HBox>
+            </VBox>
+
+        </f:content>
+    </f:SimpleForm >
+</core:FragmentDefinition>
